@@ -11,6 +11,7 @@
 4. Implementar el algoritmo backpropagation - Ok
 5. Entrenar la red - Ok
 6. Probar con los mismos datos - ok
+7. Agregar algo que veamos necesario
 
 # Patrones con fallas
 
@@ -35,3 +36,11 @@ source OpenRoberto/bin/activate
 pip install -r requirements.txt
 cd backend
 uvicorn app:app
+
+## Tiempos
+
+V: 0.043193 s
+NV: 0.563921 s
+
+Hacer un script de metricas, extraer el promedio de tiempo entre V y NV para 1000 ejecuciones de la NN.
+Sacar valores maximos en tiempo y valores minimos de cada uno para revisar margen de error

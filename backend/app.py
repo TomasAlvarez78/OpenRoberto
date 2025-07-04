@@ -2,8 +2,9 @@ import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from neuralNetwork import NeuralNetwork
+from neuralNetworkNoVector import NeuralNetworkNoVector
 from client import Client
-
+import time
 
 # from itertools import product
 
@@ -44,7 +45,14 @@ X = np.array([row[:4] for row in pattern]) # Entrada
 Y = np.array([row[4:] for row in pattern]) # Salida
 
 nn = NeuralNetwork()
+# nn = NeuralNetworkNoVector()
+print("Inicializacion entramiento")
+inicio = time.perf_counter()
 nn.train(X, Y, epochs=1000, print_every=100, print=False)
+fin = time.perf_counter()
+print("Finalizacion entramiento")
+tiempo_transcurrido = fin - inicio
+print(f"Tiempo transcurrido: {tiempo_transcurrido:.6f} segundos")
 
 # Fin Red Neuronal
 
@@ -89,6 +97,7 @@ def predict():
     print(f"API Get Response: {sensores}")
     
     entrada = np.array([[int(sensores['S1']), int(sensores['S2']), int(sensores['S3']), int(sensores['S4'])]])
+    
     salida = np.where(nn.forward(entrada) >= 0, 1, -1).tolist()[0]
 
     sensores_con_motores = {

@@ -1,2 +1,26 @@
 __pycache__/*
 */__pycache__/*
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/openrobertofront/node_modules
+/openrobertofront/.pnp
+/openrobertofront/.pnp.js
+
+# testing
+/openrobertofront/coverage
+
+# production
+/openrobertofront/build
+
+# misc
+/openrobertofront/.DS_Store
+/openrobertofront/.env.local
+/openrobertofront/.env.development.local
+/openrobertofront/.env.test.local
+/openrobertofront/.env.production.local
+
+/openrobertofront/npm-debug.log*
+/openrobertofront/yarn-debug.log*
+/openrobertofront/yarn-error.log*

@@ -1,11 +1,13 @@
 import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from neuralNetwork import NeuralNetwork
 from neuralNetworkNoVector import NeuralNetworkNoVector
 from client import Client
 import time
 import subprocess
+import csv
 
 # Generacion de datos inversos
 
@@ -136,6 +138,26 @@ def generar_csv():
             return {"status": "error", "mensaje": salida.stderr}
     except Exception as e:
         return {"status": "error", "mensaje": str(e)}
+    
+@app.get("/resultados-csv")
+def resultados_csv():
+    base_path = "./"  # o tu path específico si están en otro directorio
+    archivos = {
+        "vectorizado": f"{base_path}/resultados_topologia_Vectorizado.csv",
+        "no_vectorizado": f"{base_path}/resultados_topologia_NoVectorizado.csv"
+    }
+
+    resultados = {}
+    for clave, archivo in archivos.items():
+        try:
+            with open(archivo, newline='') as f:
+                reader = csv.DictReader(f)
+                resultados[clave] = [row for row in reader]
+        except FileNotFoundError:
+            resultados[clave] = f"Archivo no encontrado: {archivo}"
+
+    return JSONResponse(content=resultados)
+    
 # Fin Endpoints
     
 

@@ -5,6 +5,7 @@ from neuralNetwork import NeuralNetwork
 from neuralNetworkNoVector import NeuralNetworkNoVector
 from client import Client
 import time
+import subprocess
 
 # Generacion de datos inversos
 
@@ -14,6 +15,10 @@ import time
 # def obtener_patrones_no_entrenados(todos, entrenados):
 #     entrenados_set = {tuple(p[:4]) for p in entrenados}
 #     return [p for p in todos if tuple(p) not in entrenados_set]
+
+modelo_actual = 'Vectorizado'
+modelos = {}
+tiempos_entrenamiento = {}
 
 def entrenar_modelos():
     global modelos, tiempos_entrenamiento
@@ -38,10 +43,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-modelo_actual = 'Vectorizado'
-modelos = {}
-tiempos_entrenamiento = {}
 
 # Client
 
@@ -123,6 +124,18 @@ def tiempo_entrenamiento():
     }
 
 
+@app.get("/generar-csv")
+def generar_csv():
+    try:
+        salida = subprocess.run(
+            ["python3", "topologyComparison.py"], capture_output=True, text=True
+        )
+        if salida.returncode == 0:
+            return {"status": "ok", "mensaje": "CSV generado correctamente"}
+        else:
+            return {"status": "error", "mensaje": salida.stderr}
+    except Exception as e:
+        return {"status": "error", "mensaje": str(e)}
 # Fin Endpoints
     
 

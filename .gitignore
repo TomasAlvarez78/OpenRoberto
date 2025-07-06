@@ -1,2 +1,4 @@
 __pycache__/*
 */__pycache__/*
+backend/resultados_topologia_Vectorizado.csv
+backend/resultados_topologia_NoVectorizado.csv

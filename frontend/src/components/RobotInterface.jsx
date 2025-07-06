@@ -108,6 +108,13 @@ export default function RobotInterface() {
     }
   };
 
+  const handleGenerarCSV = async () => {
+    const res = await fetch("http://localhost:8000/generar-csv");
+    const data = await res.json();
+    alert(data.mensaje);
+  };
+
+
   const sensorLabels = {
     S1: 'Adelante',
     S2: 'Atrás',
@@ -191,6 +198,14 @@ export default function RobotInterface() {
             className="bg-purple-500 text-white px-4 py-1 rounded hover:bg-purple-600"
           >
             Cambiar a: {modelo === 'Vectorizado' ? 'NoVectorizado' : 'Vectorizado'}
+          </button>
+        </div>
+        <div className="text-center pt-2">
+          <button
+            onClick={handleGenerarCSV}
+            className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600"
+          >
+            Generar CSV Topologías
           </button>
         </div>
       </div>

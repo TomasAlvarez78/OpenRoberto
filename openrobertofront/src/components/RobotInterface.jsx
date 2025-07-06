@@ -1,10 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function RobotInterface() {
   const [sensors, setSensors] = useState({ S1: '', S2: '', S3: '', S4: '' });
   const [motors, setMotors] = useState({ M1: '', M2: '' });
   const [direccion, setDireccion] = useState('');
   const [respuestaAPI, setRespuestaAPI] = useState('');
+  const [tiempo, setTiempo] = useState('');
+  const [tiempoResult, setTiempoResult] = useState('');
+  const [modelo, setModelo] = useState('Vectorizado');
+
+  useEffect(() => {
+    fetchTiempo();
+  }, [modelo]);
+
+  const fetchTiempo = async () => {
+    const res = await fetch("http://localhost:8000/tiempo-entrenamiento");
+    const data = await res.json();
+    setTiempo(`${data.modelo} → ${data.tiempo_ms} ms`);
+  };
+
+  const toggleModelo = async () => {
+    const nuevoModelo = modelo === 'Vectorizado' ? 'NoVectorizado' : 'Vectorizado';
+    setModelo(nuevoModelo);
+    await fetch("http://localhost:8000/set-modelo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ modelo: nuevoModelo }),
+    });
+    fetchTiempo();
+  };
 
   const getRobotOrientation = () => {
     if (direccion === 'Avanzar') return '⬆️';
@@ -41,6 +67,8 @@ export default function RobotInterface() {
         });
 
         setDireccionFromOutput([parseInt(data.sensores.M1), parseInt(data.sensores.M2)]);
+        setTiempoResult(`${data.tiempos_entrenamientoResult} ms`);
+      
       } else {
         setRespuestaAPI('Error en backend');
       }
@@ -148,6 +176,22 @@ export default function RobotInterface() {
             Consulta Post - API
           </button>
           <span className="ml-2 text-sm text-gray-700">{respuestaAPI}</span>
+        </div>
+
+        <div className="text-center text-sm text-gray-500 pt-2">
+          Tiempo de Entrenamiento: {tiempo}
+        </div>
+        <div className="text-center text-sm text-gray-500 pt-2">
+          Tiempo de Procesado: {tiempoResult}
+        </div>
+
+        <div className="text-center pt-2">
+          <button
+            onClick={toggleModelo}
+            className="bg-purple-500 text-white px-4 py-1 rounded hover:bg-purple-600"
+          >
+            Cambiar a: {modelo === 'Vectorizado' ? 'NoVectorizado' : 'Vectorizado'}
+          </button>
         </div>
       </div>
     </div>

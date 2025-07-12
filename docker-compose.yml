@@ -27,7 +27,10 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ALLOW_EMBEDDING=true
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards/:/etc/grafana/dashboards/
+
 volumes:
   grafana-data:

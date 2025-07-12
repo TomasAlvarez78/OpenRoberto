@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function RobotInterface() {
-  const [sensors, setSensors] = useState({ S1: '', S2: '', S3: '', S4: '' });
-  const [motors, setMotors] = useState({ M1: '', M2: '' });
-  const [direccion, setDireccion] = useState('');
-  const [respuestaAPI, setRespuestaAPI] = useState('');
-  const [tiempo, setTiempo] = useState('');
-  const [tiempoResult, setTiempoResult] = useState('');
-  const [modelo, setModelo] = useState('Vectorizado');
+  const [sensors, setSensors] = useState({ S1: "", S2: "", S3: "", S4: "" });
+  const [motors, setMotors] = useState({ M1: "", M2: "" });
+  const [direccion, setDireccion] = useState("");
+  const [respuestaAPI, setRespuestaAPI] = useState("");
+  const [tiempo, setTiempo] = useState("");
+  const [tiempoResult, setTiempoResult] = useState("");
+  const [modelo, setModelo] = useState("Vectorizado");
 
   useEffect(() => {
     fetchTiempo();
@@ -20,7 +20,8 @@ export default function RobotInterface() {
   };
 
   const toggleModelo = async () => {
-    const nuevoModelo = modelo === 'Vectorizado' ? 'NoVectorizado' : 'Vectorizado';
+    const nuevoModelo =
+      modelo === "Vectorizado" ? "NoVectorizado" : "Vectorizado";
     setModelo(nuevoModelo);
     await fetch("http://localhost:8000/set-modelo", {
       method: "POST",
@@ -33,11 +34,11 @@ export default function RobotInterface() {
   };
 
   const getRobotOrientation = () => {
-    if (direccion === 'Avanzar') return '⬆️';
-    if (direccion === 'Retroceder') return '⬇️';
-    if (direccion === 'Girar Izquierda') return '⬅️';
-    if (direccion === 'Girar Derecha') return '➡️';
-    return '🤖';
+    if (direccion === "Avanzar") return "⬆️";
+    if (direccion === "Retroceder") return "⬇️";
+    if (direccion === "Girar Izquierda") return "⬅️";
+    if (direccion === "Girar Derecha") return "➡️";
+    return "🤖";
   };
 
   const setDireccionFromOutput = ([m1, m2]) => {
@@ -58,22 +59,24 @@ export default function RobotInterface() {
           S1: data.sensores.S1,
           S2: data.sensores.S2,
           S3: data.sensores.S3,
-          S4: data.sensores.S4
+          S4: data.sensores.S4,
         });
 
         setMotors({
           M1: data.sensores.M1,
-          M2: data.sensores.M2
+          M2: data.sensores.M2,
         });
 
-        setDireccionFromOutput([parseInt(data.sensores.M1), parseInt(data.sensores.M2)]);
+        setDireccionFromOutput([
+          parseInt(data.sensores.M1),
+          parseInt(data.sensores.M2),
+        ]);
         setTiempoResult(`${data.tiempos_entrenamientoResult} ms`);
-      
       } else {
-        setRespuestaAPI('Error en backend');
+        setRespuestaAPI("Error en backend");
       }
     } catch (err) {
-      setRespuestaAPI('Error de red');
+      setRespuestaAPI("Error de red");
     }
   };
 
@@ -97,14 +100,14 @@ export default function RobotInterface() {
       });
 
       const data = await response.json();
-      let responseText = data[0].Resp + " - " +  data[0].Desc
+      let responseText = data[0].Resp + " - " + data[0].Desc;
       if (data) {
-        setRespuestaAPI(responseText || 'Respuesta recibida');
+        setRespuestaAPI(responseText || "Respuesta recibida");
       } else {
-        setRespuestaAPI('Respuesta vacía');
+        setRespuestaAPI("Respuesta vacía");
       }
     } catch (error) {
-      setRespuestaAPI('Error en POST');
+      setRespuestaAPI("Error en POST");
     }
   };
 
@@ -114,12 +117,11 @@ export default function RobotInterface() {
     alert(data.mensaje);
   };
 
-
   const sensorLabels = {
-    S1: 'Adelante',
-    S2: 'Atrás',
-    S3: 'Izquierda',
-    S4: 'Derecha'
+    S1: "Adelante",
+    S2: "Atrás",
+    S3: "Izquierda",
+    S4: "Derecha",
   };
 
   return (
@@ -127,7 +129,7 @@ export default function RobotInterface() {
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-center">Sensores</h2>
         <div className="grid grid-cols-4 gap-2">
-          {['S1', 'S2', 'S3', 'S4'].map((s) => (
+          {["S1", "S2", "S3", "S4"].map((s) => (
             <div key={s} className="flex flex-col items-center">
               <span className="text-sm text-gray-600">{sensorLabels[s]}</span>
               <input
@@ -135,7 +137,13 @@ export default function RobotInterface() {
                 value={sensors[s]}
                 readOnly
                 placeholder={s}
-                className={`border p-2 rounded text-center w-20 font-bold ${sensors[s] === '-1' ? 'bg-green-200 text-green-800' : sensors[s] === '1' ? 'bg-red-200 text-red-800' : 'bg-gray-100'}`}
+                className={`border p-2 rounded text-center w-20 font-bold ${
+                  sensors[s] === "-1"
+                    ? "bg-green-200 text-green-800"
+                    : sensors[s] === "1"
+                    ? "bg-red-200 text-red-800"
+                    : "bg-gray-100"
+                }`}
               />
             </div>
           ))}
@@ -165,9 +173,7 @@ export default function RobotInterface() {
           />
         </div>
 
-        <div className="text-center text-3xl">
-          {getRobotOrientation()}
-        </div>
+        <div className="text-center text-3xl">{getRobotOrientation()}</div>
 
         <div className="flex justify-center gap-4 pt-4 items-center">
           <button
@@ -197,7 +203,8 @@ export default function RobotInterface() {
             onClick={toggleModelo}
             className="bg-purple-500 text-white px-4 py-1 rounded hover:bg-purple-600"
           >
-            Cambiar a: {modelo === 'Vectorizado' ? 'NoVectorizado' : 'Vectorizado'}
+            Cambiar a:{" "}
+            {modelo === "Vectorizado" ? "NoVectorizado" : "Vectorizado"}
           </button>
         </div>
         <div className="text-center pt-2">
@@ -208,6 +215,23 @@ export default function RobotInterface() {
             Generar CSV Topologías
           </button>
         </div>
+        <div className="mt-6">
+          <h3 className="text-center font-semibold mb-2">
+            Visualización en Grafana
+          </h3>
+          <iframe
+            src="http://localhost:3000/d-solo/9a4c4172-0615-447f-8d27-4007cc084d84/error-cuadratico-medio-por-neurona?orgId=1&from=1751825666771&to=1751847266771&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
+            width="450"
+            height="200"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <iframe
+          src="http://localhost:3000/d-solo/9a4c4172-0615-447f-8d27-4007cc084d84/error-cuadratico-medio-por-neurona?orgId=1&from=1751825763693&to=1751847363693&timezone=browser&panelId=2&__feature.dashboardSceneSolo"
+          width="450"
+          height="200"
+          frameborder="0"
+        ></iframe>
       </div>
     </div>
   );

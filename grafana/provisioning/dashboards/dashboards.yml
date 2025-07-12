@@ -10,5 +10,4 @@ providers:
     disableDeletion: false
     editable: true
     options:
-      # Ruta DENTRO del contenedor donde Grafana buscará los dashboards
-      path: /etc/grafana/dashboards
+      path: /etc/grafana/provisioning/dashboards

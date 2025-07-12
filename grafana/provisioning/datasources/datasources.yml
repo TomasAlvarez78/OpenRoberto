@@ -1,0 +1,12 @@
+# ./grafana/provisioning/datasources/datasources.yml
+
+apiVersion: 1
+
+datasources:
+  - name: Infinity
+    type: yesoreyeram-infinity-datasource
+    access: proxy
+    orgId: 1
+    isDefault: true
+    editable: true
+    uid: infinity-datasource

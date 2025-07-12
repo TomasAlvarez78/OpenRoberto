@@ -183,7 +183,6 @@ export default function RobotInterface() {
             </button>
           </div>
 
-          {/* Mensaje respuestaAPI mejorado y centrado */}
           <div className="flex justify-center pt-4">
             {respuestaAPI && (
               <div
@@ -210,7 +209,6 @@ export default function RobotInterface() {
             )}
           </div>
 
-          {/* Mejora visual para tiempos con animación y diseño */}
           <div className="flex justify-center gap-8 mt-6">
             <div className="bg-blue-100 text-blue-800 px-6 py-4 rounded-lg shadow-md flex items-center gap-3 min-w-[240px] animate-fadeIn">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

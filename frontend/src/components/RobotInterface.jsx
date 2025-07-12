@@ -69,10 +69,10 @@ export default function RobotInterface() {
         setDireccionFromOutput([parseInt(data.sensores.M1), parseInt(data.sensores.M2)]);
         setTiempoResult(`${data.tiempos_entrenamientoResult} ms`);
       } else {
-        setRespuestaAPI('Error en backend');
+        setRespuestaAPI('KO - Error en backend');
       }
     } catch (err) {
-      setRespuestaAPI('Error de red');
+      setRespuestaAPI('KO - Error de red');
     }
   };
 
@@ -96,14 +96,14 @@ export default function RobotInterface() {
       });
 
       const data = await response.json();
-      let responseText = data[0].Resp + " - " + data[0].Desc
+      let responseText = data[0].Resp + (data[0].Desc ? " - " + data[0].Desc : "");
       if (data) {
-        setRespuestaAPI(responseText || 'Respuesta recibida');
+        setRespuestaAPI(responseText || 'OK - Respuesta recibida');
       } else {
-        setRespuestaAPI('Respuesta vacía');
+        setRespuestaAPI('KO - Respuesta vacía');
       }
     } catch (error) {
-      setRespuestaAPI('Error en POST');
+      setRespuestaAPI('KO - Error en POST');
     }
   };
 
@@ -181,17 +181,59 @@ export default function RobotInterface() {
             >
               Consulta Post - API
             </button>
-            <span className="ml-2 text-sm text-gray-700">{respuestaAPI}</span>
           </div>
 
-          <div className="text-center text-sm text-gray-500 pt-2">
-            Tiempo de Entrenamiento: {tiempo}
-          </div>
-          <div className="text-center text-sm text-gray-500 pt-2">
-            Tiempo de Procesado: {tiempoResult}
+          {/* Mensaje respuestaAPI mejorado y centrado */}
+          <div className="flex justify-center pt-4">
+            {respuestaAPI && (
+              <div
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold
+                  ${
+                    respuestaAPI.startsWith('OK')
+                      ? 'bg-green-100 text-green-800'
+                      : respuestaAPI.startsWith('KO')
+                      ? 'bg-red-100 text-red-800'
+                      : 'bg-gray-100 text-gray-700'
+                  }
+                `}
+                role="alert"
+                aria-live="polite"
+              >
+                {respuestaAPI.startsWith('OK') && (
+                  <span aria-hidden="true" className="text-xl">✅</span>
+                )}
+                {respuestaAPI.startsWith('KO') && (
+                  <span aria-hidden="true" className="text-xl">❌</span>
+                )}
+                <span>{respuestaAPI}</span>
+              </div>
+            )}
           </div>
 
-          <div className="text-center pt-2">
+          {/* Mejora visual para tiempos con animación y diseño */}
+          <div className="flex justify-center gap-8 mt-6">
+            <div className="bg-blue-100 text-blue-800 px-6 py-4 rounded-lg shadow-md flex items-center gap-3 min-w-[240px] animate-fadeIn">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <div className="text-sm font-semibold tracking-wide">Tiempo de Entrenamiento</div>
+                <div className="text-2xl font-extrabold">{tiempo || '--'}</div>
+              </div>
+            </div>
+
+            <div className="bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-md flex items-center gap-3 min-w-[240px] animate-fadeIn">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-3-3v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <div className="text-sm font-semibold tracking-wide">Tiempo de Procesado</div>
+                <div className="text-2xl font-extrabold">{tiempoResult || '--'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center pt-4">
             <button
               onClick={toggleModelo}
               className="bg-purple-500 text-white px-4 py-1 rounded hover:bg-purple-600"
@@ -232,6 +274,15 @@ export default function RobotInterface() {
         </div>
       </div>
 
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {opacity: 0; transform: translateY(10px);}
+          to {opacity: 1; transform: translateY(0);}
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease forwards;
+        }
+      `}</style>
     </div>
   );
 }

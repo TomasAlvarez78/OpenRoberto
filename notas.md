@@ -44,3 +44,9 @@ NV: 0.563921 s
 
 Hacer un script de metricas, extraer el promedio de tiempo entre V y NV para 1000 ejecuciones de la NN.
 Sacar valores maximos en tiempo y valores minimos de cada uno para revisar margen de error
+
+## Ports:
+
+3000: Grafana
+3001: FrontEnd
+8000: Backend

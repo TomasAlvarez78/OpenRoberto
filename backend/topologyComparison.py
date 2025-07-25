@@ -18,7 +18,7 @@ pattern = [
 X = np.array([row[:4] for row in pattern])
 Y = np.array([row[4:] for row in pattern])
 
-ocultas = [2, 3, 5, 7, 10]
+ocultas = [2, 3, 5, 7, 10, 20]
 for modo, Clase in {'Vectorizado': NeuralNetwork, 'NoVectorizado': NeuralNetworkNoVector}.items():
     resultados = []
     for h in ocultas:

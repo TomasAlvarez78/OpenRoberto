@@ -63,6 +63,7 @@ pattern = [
     [ 1, 1, 1,-1,   1, -1],  # Gira hacia la derecha
 ]
 
+
 X = np.array([row[:4] for row in pattern]) # Entrada
 Y = np.array([row[4:] for row in pattern]) # Salida
 
@@ -141,7 +142,7 @@ def generar_csv():
     
 @app.get("/resultados-csv")
 def resultados_csv():
-    base_path = "./"  # o tu path específico si están en otro directorio
+    base_path = "./"
     archivos = {
         "vectorizado": f"{base_path}/resultados_topologia_Vectorizado.csv",
         "no_vectorizado": f"{base_path}/resultados_topologia_NoVectorizado.csv"

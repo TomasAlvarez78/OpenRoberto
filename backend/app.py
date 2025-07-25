@@ -54,10 +54,10 @@ client = Client("https://www.agurait.com/ubp/sia/2022/roberto/")
 
 pattern = [
     # S1 S2 S3 S4   M1 M2
-    [ 1, 1, 1, 1,  -1, -1],  # Rodeado → retroceder
+    [ 1, 1, 1, 1,  -1, -1],  # Rodeado - retroceder
     [-1, 1, 1, 1,  -1,  1],  # Gira hacia la izquierda
     [ 1, 1,-1,-1,   1, -1],  # Gira hacia la derecha
-    [-1,-1,-1,-1,   1,  1],  # Todo libre → avanzar
+    [-1,-1,-1,-1,   1,  1],  # Todo libre - avanzar
     [ 1,-1, 1, 1,   1, -1],  # Gira hacia la derecha
     [ 1, 1,-1, 1,  -1,  1],  # Gira hacia la izquierda
     [ 1, 1, 1,-1,   1, -1],  # Gira hacia la derecha
